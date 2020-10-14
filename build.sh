@@ -13,6 +13,18 @@ GOOS=darwin GOARCH=amd64 go build -o ../dist/payment-osx
 GOOS=linux GOARCH=amd64 go build -o ../dist/payment-linux
 cd ..
 
+echo "Building Vue app"
+cd payment-vue
+npm run build
+cd ..
+mv static/index.html views/index.tpl
+
+echo "Append Static Assets"
+cd server
+rice append --exec ../dist/payment-linux
+rice append --exec ../dist/payment-osx
+cd ..
+
 echo "Starting new built binary"
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     dist/payment-linux &

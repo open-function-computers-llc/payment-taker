@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"github.com/open-function-computers-llc/payment-taker/server"
+)
 
 func main() {
-	fmt.Println("testing")
+	s := server.Create()
+	s.Serve()
 }
