@@ -14,6 +14,7 @@ func (s *Server) handleIndex() http.HandlerFunc {
 		}
 
 		tpl, err := template.New("homepage").Parse(tplString)
+		s.log(s.configuration)
 		tpl.Execute(w, map[string]string{
 			"Client":          s.configuration.customerName,
 			"StripePublicKey": s.configuration.stripePublicKey,

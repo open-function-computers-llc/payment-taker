@@ -12,6 +12,7 @@
             <tr v-for="(invoice, index) in invoices" :key="'invoice'+index" style="border-bottom: 1px solid #ccc;">
                 <td>{{ invoice.number }}</td>
                 <td>{{ invoice.amount }}</td>
+                <!-- <td>{{ invoice.fee }}</td> -->
             </tr>
             <tr>
                 <td colspan="2">Total: ${{ total }}</td>
@@ -34,7 +35,8 @@ export default {
         total() {
             let output = 0
             this.invoices.map((i) => {
-                output += Number(i.amount)
+                let stripeFee = ((Number(i.amount) * .029 ) + .3 )
+                output += (Number(i.amount) + stripeFee)
             })
             return output
         },

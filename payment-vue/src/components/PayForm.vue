@@ -1,13 +1,13 @@
 <template>
     <div>
-        <h1>Please give us your payment details:</h1>
+        <h1>Payment Details:</h1>
         <card class='stripe-card'
             :class='{ complete }'
             :stripe='publicKey'
-            :options='stripeOptions'
+            :options='{ stripeOptions }'
             @change='complete = $event.complete'
         />
-        <button class='pay-with-stripe' @click='pay' :disabled='!complete'>Pay with credit card</button>
+        <button class='pay-with-stripe' @click='pay' :disabled='!complete'>Submit</button>
     </div>
 </template>
 
@@ -19,14 +19,18 @@ export default {
         return {
             complete: false,
             publicKey: window.stripePublicKey,
+            stripeOptions: {
+                sku: 'sku_FdQKocNoVzznpJ', 
+                quantity: 1
+            }
         }
     },
     props: ["intent"],
     components: { Card },
     methods: {
         pay () {
-            console.log(this)
-            console.log(this.intent)
+            console.log('this is the this ', this)
+            console.log('this is the public key ', this.publicKey)
             // createToken returns a Promise which resolves in a result object with
             // either a token or an error key.
             // See https://stripe.com/docs/api#tokens for the token object.
