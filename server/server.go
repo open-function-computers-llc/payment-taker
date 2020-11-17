@@ -5,9 +5,9 @@ import (
 	"os"
 
 	rice "github.com/GeertJohan/go.rice"
-	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"github.com/sirupsen/logrus"
 )
 
 // Server is a struct that controls all the input/ouput through http

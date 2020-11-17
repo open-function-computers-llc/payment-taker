@@ -30,13 +30,14 @@ export default {
 
       axios({
         method: 'post',
-        url: '/intent',
+        url: process.env.VUE_APP_API_DOMAIN + '/intent',
         data: {
           invoices: payload.invoices,
           amount: Math.round(this.amount * 100) // pennies
         }
       }).then((response) => {
-        this.paymentIntentID = response.intentID
+        console.log(response)
+        this.paymentIntentID = response.data.intentID
       })
     }
   }

@@ -7,10 +7,9 @@
     <title>Online Payment Portal | {{ .Client }}</title>
 
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-
     <script src="//js.stripe.com/v3/"></script>
     <script>
-      var stripePublicKey = "pk_test_51HNi2TC3gdKFqZUeJlWAFUAuxoNC5yheu2FgYVTo6xeldDS7MB09BxfXIflWIwLt6nHRlm0UYQfZB8Zx1TCrVUSJ00laXKh9Kz";
+      var stripePublicKey = "<%= VUE_APP_STRIPE_PUB_KEY %>";
       var stripe = Stripe(stripePublicKey);
     </script>
   </head>
