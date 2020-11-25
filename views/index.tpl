@@ -1,23 +1,2 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Online Payment Portal | {{ .Client }}</title>
-
-    <link rel="icon" href="/static/favicon.ico">
-    <script src="//js.stripe.com/v3/"></script>
-    <script>
-      var stripePublicKey = "{{ .StripePublicKey }}";
-      var stripe = Stripe(stripePublicKey);
-    </script>
-  <link href="/static/js/app.js" rel="preload" as="script"><link href="/static/js/chunk-vendors.js" rel="preload" as="script"></head>
-  <body>
-    <noscript>
-      <strong>We're sorry but this doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  <script type="text/javascript" src="/static/js/chunk-vendors.js"></script><script type="text/javascript" src="/static/js/app.js"></script></body>
-</html>
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><title>Online Payment Portal | {{ .Client }}</title><link rel=icon href=/static/favicon.svg><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src=//js.stripe.com/v3/ ></script><script>var stripePublicKey = "pk_test_51HNi2TC3gdKFqZUeJlWAFUAuxoNC5yheu2FgYVTo6xeldDS7MB09BxfXIflWIwLt6nHRlm0UYQfZB8Zx1TCrVUSJ00laXKh9Kz";
+      var stripe = Stripe(stripePublicKey);</script><link href=/static/css/app.8103f66f.css rel=preload as=style><link href=/static/css/chunk-vendors.d4d80561.css rel=preload as=style><link href=/static/js/app.0811b0d3.js rel=preload as=script><link href=/static/js/chunk-vendors.b2336b8e.js rel=preload as=script><link href=/static/css/chunk-vendors.d4d80561.css rel=stylesheet><link href=/static/css/app.8103f66f.css rel=stylesheet></head><body><noscript><strong>We're sorry but this doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=app></div><script src=/static/js/chunk-vendors.b2336b8e.js></script><script src=/static/js/app.0811b0d3.js></script></body></html>

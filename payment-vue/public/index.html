@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Online Payment Portal | {{ .Client }}</title>
 
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="icon" href="/static/favicon.svg">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="//js.stripe.com/v3/"></script>
     <script>
       var stripePublicKey = "<%= VUE_APP_STRIPE_PUB_KEY %>";

@@ -49,7 +49,7 @@ func (s *Server) handleIntent() http.HandlerFunc {
 		}
 
 		output := map[string]interface{}{
-			"intentID": pi.ClientSecret,
+			"paymentIntentID": pi.ClientSecret,
 		}
 		bytes, err := json.Marshal(output)
 		if err != nil {
