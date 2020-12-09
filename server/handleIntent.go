@@ -11,46 +11,56 @@ import (
 
 func (s *Server) handleIntent() http.HandlerFunc {
 	type intentRequest struct {
-		Amount   int64 `json:"amount"`
+		Company  string `json:"company"`
+		Email    string `json:"email"`
+		Amount   int64  `json:"amount"`
 		Invoices []struct {
 			Number string `json:"number"`
 			Amount string `json:"amount"`
 		} `json:"invoices"`
 	}
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
 			s.handleError(w, err.Error())
 			return
 		}
-		s.log(string(body))
 		var bodyJSON intentRequest
 		err = json.Unmarshal(body, &bodyJSON)
 		if err != nil {
 			s.handleError(w, err.Error())
 			return
 		}
-		s.log(bodyJSON)
 
 		stripe.Key = s.configuration.stripePrivateKey
 
 		params := &stripe.PaymentIntentParams{
-			Amount:   stripe.Int64(bodyJSON.Amount),
-			Currency: stripe.String(string(stripe.CurrencyUSD)),
+			Amount:              stripe.Int64(bodyJSON.Amount),
+			Currency:            stripe.String(string(stripe.CurrencyUSD)),
+			StatementDescriptor: stripe.String("Open Function Invoice"),
 		}
 
 		for _, invoice := range bodyJSON.Invoices {
-			params.AddMetadata("Invoice "+invoice.Number, invoice.Amount)
+			params.AddMetadata("Invoice", "#"+invoice.Number)
+			params.AddMetadata("Invoice Amount", "$"+invoice.Amount)
 		}
+		params.AddMetadata("Company", bodyJSON.Company)
+		params.AddMetadata("Email: ", bodyJSON.Email)
+
 		pi, err := paymentintent.New(params)
+
 		if err != nil {
 			s.handleError(w, err.Error())
 			return
 		}
 
 		output := map[string]interface{}{
-			"paymentIntentID": pi.ClientSecret,
+			"intentID": pi.ClientSecret,
 		}
+
+		s.log(pi.ClientSecret)
+
 		bytes, err := json.Marshal(output)
 		if err != nil {
 			s.handleError(w, err.Error())
