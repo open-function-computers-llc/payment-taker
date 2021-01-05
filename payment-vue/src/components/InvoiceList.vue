@@ -35,8 +35,8 @@
                             id="invoice"
                             name="invoice"
                             class="form-control"
-                            type="number"
-                            v-model.number="newInvoiceNumber"
+                            type="text"
+                            v-model="newInvoiceNumber"
                             ref="invoiceNumber"
                         />
                     </div>
@@ -48,8 +48,8 @@
                         <input
                             class="form-control"
                             id="amount"
-                            type="number"
-                            v-model.number="newInvoiceAmount"
+                            type="text"
+                            v-model="newInvoiceAmount"
                             ref="invoiceAmount"
                         />
                     </div>
@@ -161,7 +161,7 @@ export default {
     methods: {
         addInvoice() {
             this.invoices.push({
-                number: this.newInvoiceNumber.toString(),
+                number: this.newInvoiceNumber,
                 amount: this.newInvoiceAmount.toString(),
             });
             this.hideCompanyEmail = true;
