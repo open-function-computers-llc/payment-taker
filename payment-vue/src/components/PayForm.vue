@@ -36,7 +36,15 @@
 				</div>
 				<hr />
 				<div class="flex">
-					<span>Online Transaction Fee</span>
+					<span>
+						Online Transaction Fee
+						<span class="tooltip">
+							<sup><i class="fa fa-info-circle"></i></sup>
+							<span class="tooltiptext">
+								Please send a check by mail to avoid the online transaction fee.
+							</span>
+						</span>
+					</span>
 					<span>${{ fee }}</span>
 				</div>
 				<div class="flex mb-4">
