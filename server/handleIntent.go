@@ -41,12 +41,19 @@ func (s *Server) handleIntent() http.HandlerFunc {
 			StatementDescriptor: stripe.String("Open Function Invoice"),
 		}
 
-		for _, invoice := range bodyJSON.Invoices {
-			params.AddMetadata("Invoice", "#"+invoice.Number)
-			params.AddMetadata("Invoice Amount", "$"+invoice.Amount)
+		if len(bodyJSON.Invoices) > 1 {
+			invoices := ""
+			for _, invoice := range bodyJSON.Invoices {
+				invoices += "#" + invoice.Number + "..." + "$" + invoice.Amount + " | "
+			}
+			params.AddMetadata("Invoices", invoices)
+		} else {
+			params.AddMetadata("Invoice", "#"+bodyJSON.Invoices[0].Number)
+			params.AddMetadata(("Invoice Amount, $"+bodyJSON.Invoices[0].Amount)
 		}
+
 		params.AddMetadata("Company", bodyJSON.Company)
-		params.AddMetadata("Email: ", bodyJSON.Email)
+		params.AddMetadata("Email", bodyJSON.Email)
 
 		pi, err := paymentintent.New(params)
 
