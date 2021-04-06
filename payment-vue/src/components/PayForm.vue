@@ -120,6 +120,11 @@ export default {
 						this.spinner = false;
 						console.log("Success!", result);
 						this.state = "thanks";
+
+						// do ajax request to send reciepts to us and customer
+						axios.post("/receipt", {
+							"result" : result
+						});
 					}
 				});
 		},

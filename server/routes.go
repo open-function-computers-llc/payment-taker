@@ -6,8 +6,9 @@ import "net/http"
 func (s *Server) setRoutes() {
 	// basic routes
 	routes := map[string]http.HandlerFunc{
-		"/":       s.handleIndex(),
-		"/intent": s.handleIntent(),
+		"/":        s.handleIndex(),
+		"/intent":  s.handleIntent(),
+		"/receipt": s.handleReceipt(),
 	}
 
 	// wrap the routes in basic middleware stack

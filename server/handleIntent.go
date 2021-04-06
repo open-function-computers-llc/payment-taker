@@ -49,7 +49,7 @@ func (s *Server) handleIntent() http.HandlerFunc {
 			params.AddMetadata("Invoices", invoices)
 		} else {
 			params.AddMetadata("Invoice", "#"+bodyJSON.Invoices[0].Number)
-			params.AddMetadata(("Invoice Amount, $"+bodyJSON.Invoices[0].Amount)
+			params.AddMetadata("Invoice Amount", "$"+bodyJSON.Invoices[0].Amount)
 		}
 
 		params.AddMetadata("Company", bodyJSON.Company)
