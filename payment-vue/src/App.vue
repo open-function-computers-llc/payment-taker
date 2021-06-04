@@ -21,6 +21,7 @@
             v-bind:total="this.total"
             v-bind:fee="this.fee"
             v-bind:invoices="this.invoices"
+            v-bind:email="this.companyEmail"
         />
     </div>
 </template>
@@ -45,6 +46,7 @@ export default {
             amount: 0,
             fee: 0,
             company: "",
+            companyEmail: "",
             invoices: [],
             client_scret: "",
         };
@@ -58,7 +60,7 @@ export default {
             this.total = payload.amount.totalCharge;
             this.fee = payload.amount.fee;
             this.company = payload.company;
-            this.email = payload.email;
+            this.companyEmail = payload.email;
             this.invoices = payload.invoices;
             // posts amount, invoice info and company name to
             // stripe payment intent API, returns a client_secret

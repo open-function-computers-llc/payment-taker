@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
 	data() {
 		return {
@@ -107,7 +109,7 @@ export default {
 			this.spinner = "true";
 			window.stripe
 				.confirmCardPayment(this.secret, {
-					email: this.email,
+					// email: this.email,
 					payment_method: {
 						card: this.card,
 					},
@@ -118,12 +120,15 @@ export default {
 						this.state = "error";
 					} else {
 						this.spinner = false;
-						console.log("Success!", result);
+						console.log("Success!", result, this.email);
 						this.state = "thanks";
 
 						// do ajax request to send reciepts to us and customer
-						axios.post("/receipt", {
-							"result" : result
+						axios.post(process.env.VUE_APP_API_DOMAIN + "/receipt", {
+							// "result" : result,
+							"email": this.email,
+							"total": this.total,
+							"fee": this.fee,
 						});
 					}
 				});

@@ -17,15 +17,21 @@ type Server struct {
 	staticAssets  *rice.Box
 	views         *rice.Box
 	configuration struct {
-		port             string
-		customerName     string
-		stripePublicKey  string
-		stripePrivateKey string
+		port                 string
+		customerName         string
+		stripePublicKey      string
+		stripePrivateKey     string
+		smtpHost             string
+		smtpUser             string
+		smtpPass             string
+		smtpPort             int
+		emailFrom            string
+		systemNotificationTo string
 	}
 }
 
 // Create return a new instance of a server booted up and ready to go
-func Create() Server {
+func Create() (Server, error) {
 	s := Server{}
 
 	// set up logging
@@ -43,7 +49,8 @@ func Create() Server {
 	// set app configuration from ENV
 	s.processConfiguration()
 
-	return s
+	err := validateServer(s)
+	return s, err
 }
 
 // Serve will start up the http server
