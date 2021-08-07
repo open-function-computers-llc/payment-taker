@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
 	data() {
 		return {
@@ -122,8 +124,14 @@ export default {
 						this.state = "thanks";
 
 						// do ajax request to send reciepts to us and customer
-						axios.post("/receipt", {
-							"result" : result
+						axios.post(process.env.VUE_APP_API_DOMAIN + "/receipt", {
+							// "result" : result,
+							"email": this.email,
+							"total": this.total,
+							"fee": this.fee,
+							"amount": String(this.total - this.fee), // to make this easier in the go struct
+							"invoices": this.invoices,
+							"company": this.company,
 						});
 					}
 				});
