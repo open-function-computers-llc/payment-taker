@@ -9,28 +9,28 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "bootstrap-vue": "^2.17.3",
-    "core-js": "^3.6.4",
-    "vue": "^2.6.11",
+    "bootstrap-vue": "^2.21.2",
+    "core-js": "^3.16.0",
+    "vue": "^2.6.14",
     "vue-js-popover": "^1.2.1",
     "vue-stripe-elements-plus": "^0.3.2"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.11.5",
-    "@vue/cli-plugin-babel": "^4.3.0",
-    "@vue/cli-plugin-eslint": "^4.3.0",
-    "@vue/cli-service": "^4.3.0",
+    "@vue/cli-plugin-babel": "^4.5.13",
+    "@vue/cli-plugin-eslint": "^4.5.13",
+    "@vue/cli-service": "^4.5.13",
     "babel-eslint": "^10.1.0",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^4.6.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "mutationobserver-shim": "^0.3.7",
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.7",
-    "sass": "^1.26.11",
-    "sass-loader": "^10.0.2",
+    "sass": "^1.37.5",
+    "sass-loader": "^10.2.0",
     "vue-cli-plugin-bootstrap-vue": "~0.7.0",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
     "root": true,
