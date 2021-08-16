@@ -1,7 +1,7 @@
 <template>
 	<div class="app-container">
 		<div class="app-card">
-			<div class="card-body">
+			<div class="blob-body">
 				<h1 class="mb-3 text-center">Pay Invoice</h1>
 
 				<div class="invoice-form">
@@ -29,7 +29,16 @@
 							/>
 						</div>
 					</div>
-					<label>Invoice Number</label>
+					<label
+						>Invoice Number
+						<span class="tooltip">
+							<sup><i class="fa fa-info-circle"></i></sup>
+							<span class="tooltiptext">
+								If you are paying for multiple invoices, this
+								can be left blank
+							</span>
+						</span></label
+					>
 					<div class="input-group mb-3">
 						<input
 							id="invoice"
@@ -59,17 +68,25 @@
 						</button>
 					</div>
 					<table v-if="invoices.length" class="mb-3">
-						<tr v-for="(invoice, index) in invoices" :key="'invoice' + index">
+						<tr
+							v-for="(invoice, index) in invoices"
+							:key="'invoice' + index"
+						>
 							<td>Invoice # {{ invoice.number }}</td>
-							<td class="text-right">${{ parseFloat(invoice.amount).toFixed(2) }}</td>
+							<td class="text-right">
+								${{ parseFloat(invoice.amount).toFixed(2) }}
+							</td>
 						</tr>
 						<tr style="border-bottom: 1px solid #ccc">
 							<td>
-								<span class="fee-line">Online Transaction Fee</span>
+								<span class="fee-line"
+									>Online Transaction Fee</span
+								>
 								<span class="tooltip">
 									<sup><i class="fa fa-info-circle"></i></sup>
 									<span class="tooltiptext">
-										Please send a check by mail to avoid the online transaction fee.
+										Please send a check by mail to avoid the
+										online transaction fee.
 									</span>
 								</span>
 							</td>
@@ -82,7 +99,11 @@
 					</table>
 
 					<div class="text-center">
-						<button class="btn w-100" v-if="invoices.length" @click="$emit('ready-to-pay', paymentInfo)">
+						<button
+							class="btn w-100"
+							v-if="invoices.length"
+							@click="$emit('ready-to-pay', paymentInfo)"
+						>
 							Pay
 						</button>
 					</div>
@@ -119,7 +140,9 @@ export default {
 				amt += parseFloat(i.amount);
 			});
 
-			total = (amt + parseFloat(stripeFee.Fixed)) / (1 - parseFloat(stripeFee.Percent) / 100);
+			total =
+				(amt + parseFloat(stripeFee.Fixed)) /
+				(1 - parseFloat(stripeFee.Percent) / 100);
 
 			chargedFee = total - amt;
 
@@ -170,12 +193,11 @@ export default {
 
 .tooltip .tooltiptext {
 	visibility: hidden;
-	width: 120px;
+	width: 220px;
 	background-color: #222222;
 	color: #fff;
-	text-align: center;
 	border-radius: 6px;
-	padding: 5px 0;
+	padding: 5px 10px;
 
 	/* Position the tooltip */
 	position: absolute;

@@ -2,9 +2,9 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strings"
 
 	"gopkg.in/gomail.v2"
@@ -34,19 +34,42 @@ func (s *Server) handleReceipt() http.HandlerFunc {
 		go func() {
 			s.log("Sending customer email...")
 			m := gomail.NewMessage()
+
+			// m.SetHeader("From", "haley@example.com")
+			// m.SetHeader("To", "test@example.com")
+			// m.SetHeader("Subject", "Hello!")
+			// m.SetBody("text/html", strings.ReplaceAll(receiptHTML, "%%TOTAL%%", incomingData.Total))
+
+			// d := gomail.Dialer{Host: "smtp://127.0.0.1", Port: 1025}
+			// if err := d.DialAndSend(m); err != nil {
+			// 	panic(err)
+			// }
+
+			 data, err := ioutil.ReadFile("/home/naveen/Documents/filehandling/test.txt")
+    if err != nil {
+        fmt.Println("File reading error", err)
+        return
+    }
+    fmt.Println("Contents of file:", string(data))
+
 			m.SetHeader("From", s.configuration.emailFrom)
 			m.SetHeader("To", incomingData.Email)
 			m.SetHeader("Subject", "Payment Reciept")
-			m.SetBody("text/html", strings.ReplaceAll(receiptHTML, "%%TOTAL%%", incomingData.Total))
+			m.SetBody("text/html", `<img style="max-width: 100px" src="https://payments.ofco.cloud/static/of-circle.png" alt="Open Function Logo" />` + strings.ReplaceAll(receiptHTML, "%%TOTAL%%", incomingData.Total))
 
-			port := s.configuration.smtpPort
-			d := gomail.NewDialer(os.Getenv("SMTP_HOST"),
-				port,
-				s.configuration.smtpUser,
-				s.configuration.smtpPass)
+			d := gomail.Dialer{Host: "127.0.0.1", Port: 1025}
 			if err := d.DialAndSend(m); err != nil {
-				s.logger.Error(err)
+				panic(err)
 			}
+
+			// port := s.configuration.smtpPort
+			// d := gomail.NewDialer(os.Getenv("SMTP_HOST"),
+			// 	port,
+			// 	s.configuration.smtpUser,
+			// 	s.configuration.smtpPass)
+			// if err := d.DialAndSend(m); err != nil {
+			// 	s.logger.Error(err)
+			// }
 		}()
 		// go func() {
 		// 	s.log("Sending ofco email...")

@@ -1,29 +1,65 @@
 <template>
-    <div id="app">
-        <div class="container">
-            <a class="home-logo" href="/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="117.88" height="93.6" viewBox="0 0 117.88 93.6">
-                <g id="Group_19" data-name="Group 19" transform="translate(-381.2 -74.8)">
-                    <path id="Path_49" data-name="Path 49" d="M26.64.72A27.057,27.057,0,0,1,14.08-2.16a21.737,21.737,0,0,1-8.76-8,21.635,21.635,0,0,1-3.16-11.6A21.489,21.489,0,0,1,5.32-33.28a21.519,21.519,0,0,1,8.72-7.96,27.3,27.3,0,0,1,12.6-2.84,27.549,27.549,0,0,1,12.64,2.84A21.275,21.275,0,0,1,48-33.32a21.639,21.639,0,0,1,3.12,11.56A21.845,21.845,0,0,1,48-10.16a21.457,21.457,0,0,1-8.72,8A27.233,27.233,0,0,1,26.64.72Zm0-12.08a8.549,8.549,0,0,0,6.56-2.76q2.56-2.76,2.56-7.64a10.536,10.536,0,0,0-2.56-7.52A8.609,8.609,0,0,0,26.64-32a8.609,8.609,0,0,0-6.56,2.72,10.536,10.536,0,0,0-2.56,7.52q0,4.88,2.56,7.64A8.549,8.549,0,0,0,26.64-11.36Zm48.08-30.4H85.04V-30.4H75.12V0H59.92V-30.4H53.6V-41.76h6.32v-1.12q0-7.92,4.76-12.56T78-60.08a27.7,27.7,0,0,1,5.6.56,13.325,13.325,0,0,1,4.48,1.68L84.32-47.12a9.094,9.094,0,0,0-4.56-1.28,4.792,4.792,0,0,0-3.72,1.44,6.074,6.074,0,0,0-1.32,4.24Z" transform="translate(411 149)" fill="#7a3cfc"/>
-                    <path id="Path_50" data-name="Path 50" d="M28.5-38.6q0,5.1-1.6,7.6a8.952,8.952,0,0,1-5.1,3.6,8.952,8.952,0,0,1,5.1,3.6q1.6,2.5,1.6,7.6v16a7.569,7.569,0,0,0,1.85,5.5A7.273,7.273,0,0,0,35.8,7.2h1.8V19.4H31.8q-9.3,0-14.1-4.6T12.9,1.5V-16.6a4.868,4.868,0,0,0-1.15-3.5A4.289,4.289,0,0,0,8.5-21.3H5.2V-33.5H8.5a4.289,4.289,0,0,0,3.25-1.2,4.868,4.868,0,0,0,1.15-3.5V-56.3q0-8.7,4.8-13.3t14.1-4.6h5.8V-62H35.8a7.273,7.273,0,0,0-5.45,1.9,7.569,7.569,0,0,0-1.85,5.5Z" transform="translate(376 149)" fill="#7a3cfc"/>
-                </g>
-                </svg>
-            </a>
-        </div>
-        <InvoiceList
-            v-if="state === 'gatherInvoices'"
-            v-on:ready-to-pay="collectPayment"
-        />
-        <PayForm
-            v-if="state === 'readyToPay'"
-            v-bind:secret="this.client_secret"
-            v-bind:company="this.company"
-            v-bind:total="this.total"
-            v-bind:fee="this.fee"
-            v-bind:invoices="this.invoices"
-            v-bind:email="this.companyEmail"
-        />
-    </div>
+	<div id="app">
+		<div class="container">
+			<a class="home-logo" href="/">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="312.74"
+					height="168.48"
+					viewBox="0 0 312.74 168.48"
+				>
+					<g
+						id="Group_18"
+						data-name="Group 18"
+						transform="translate(-648.26 -347.44)"
+					>
+						<text
+							id="open_"
+							transform="translate(709 425)"
+							fill="white"
+							font-size="76"
+							font-family="Montserrat-ExtraBold, Montserrat"
+							font-weight="800"
+						>
+							<tspan x="0" y="0">open_</tspan>
+						</text>
+						<text
+							id="function"
+							transform="translate(701 489)"
+							fill="white"
+							font-size="57"
+							font-family="Montserrat-ExtraBold, Montserrat"
+							font-weight="800"
+							letter-spacing="0.002em"
+						>
+							<tspan x="0" y="0">function</tspan>
+						</text>
+						<path
+							id="Path_12"
+							data-name="Path 12"
+							d="M41.94-65.88q0,7.38-2.34,11.16a12.965,12.965,0,0,1-7.56,5.4,12.965,12.965,0,0,1,7.56,5.4q2.34,3.78,2.34,11.16V6.66q0,14.04,13.32,14.04h4.5V34.92H51.84q-13.5,0-20.34-6.75T24.66,8.28v-41.4q0-9-8.1-9h-6.3v-14.4h6.3q8.1,0,8.1-9v-41.4q0-13.14,6.84-19.89t20.34-6.75h7.92v14.22h-4.5q-13.32,0-13.32,14.04Z"
+							transform="translate(638 481)"
+							fill="white"
+						/>
+					</g>
+				</svg>
+			</a>
+
+			<InvoiceList
+				v-if="state === 'gatherInvoices'"
+				v-on:ready-to-pay="collectPayment"
+			/>
+			<PayForm
+				v-if="state === 'readyToPay'"
+				v-bind:secret="this.client_secret"
+				v-bind:company="this.company"
+				v-bind:total="this.total"
+				v-bind:fee="this.fee"
+				v-bind:invoices="this.invoices"
+				v-bind:email="this.companyEmail"
+			/>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -39,118 +75,115 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 Vue.use(BootstrapVue);
 
 export default {
-    name: "App",
-    data() {
-        return {
-            state: "gatherInvoices",
-            amount: 0,
-            fee: 0,
-            company: "",
-            companyEmail: "",
-            invoices: [],
-            client_scret: "",
-        };
-    },
-    components: {
-        InvoiceList,
-        PayForm,
-    },
-    methods: {
-        collectPayment(payload) {
-            this.total = payload.amount.totalCharge;
-            this.fee = payload.amount.fee;
-            this.company = payload.company;
-            this.companyEmail = payload.email;
-            this.invoices = payload.invoices;
-            // posts amount, invoice info and company name to
-            // stripe payment intent API, returns a client_secret
-            // that is handled in PayForm to complete transaction
-            axios({
-                method: "post",
-                url: process.env.VUE_APP_API_DOMAIN + "/intent",
-                data: {
-                    company: payload.company,
-                    email: payload.email,
-                    invoices: payload.invoices,
-                    amount: Math.round(this.total * 100), // pennies
-                },
-            }).then((result) => {
-                // client_secret is used in PayForm
-                this.client_secret = result.data.intentID;
-                this.state = "readyToPay";
-            });
-        },
-    },
+	name: "App",
+	data() {
+		return {
+			state: "gatherInvoices",
+			amount: 0,
+			fee: 0,
+			company: "",
+			companyEmail: "",
+			invoices: [],
+			client_scret: "",
+		};
+	},
+	components: {
+		InvoiceList,
+		PayForm,
+	},
+	methods: {
+		collectPayment(payload) {
+			this.total = payload.amount.totalCharge;
+			this.fee = payload.amount.fee;
+			this.company = payload.company;
+			this.companyEmail = payload.email;
+			this.invoices = payload.invoices;
+			// posts amount, invoice info and company name to
+			// stripe payment intent API, returns a client_secret
+			// that is handled in PayForm to complete transaction
+			axios({
+				method: "post",
+				url: process.env.VUE_APP_API_DOMAIN + "/intent",
+				data: {
+					company: payload.company,
+					email: payload.email,
+					invoices: payload.invoices,
+					amount: Math.round(this.total * 100), // pennies
+				},
+			}).then((result) => {
+				// client_secret is used in PayForm
+				this.client_secret = result.data.intentID;
+				this.state = "readyToPay";
+			});
+		},
+	},
 };
 </script>
 
 <style>
 #app {
-    font-family: Montserrat, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background: #f9a673;
-    height: 100vh;
+	font-family: Montserrat, Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	height: 100vh;
+	width: 100%;
+	background: #1f1f1f;
 }
-
-.app-container {
-    width: 100%;
-    display: flex;
-    height: calc(100vh - 79px);
-    align-items: center;
-    justify-content: center;
-}
-.home-logo svg{
-    max-width: 80px;
+.home-logo svg {
+	width: 120px;
+	height: 100px;
 }
 .logo-home:hover {
-    text-decoration: none;
-    color: #222222;
+	text-decoration: none;
+	color: #222222;
 }
 .container {
-    padding-top: 1em;
+	padding-top: 1em;
 }
 .app-card {
-    max-width: 500px;
-    width: 100%;
-    margin: 0 auto;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 3px 3px 30px 0px rgba(0, 0, 0, 0.3);
+	max-width: 600px;
+	width: 100%;
+	margin: 100px auto 0;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-color: #6c63ff;
+	border-radius: 5px;
+	box-shadow: 3px 3px 30px 0px rgba(0, 0, 0, 0.3);
 }
-.card-body {
-    max-width: 500px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 3rem 1.25rem;
-}
-
 #card-element {
-    max-width: 420px;
+	background: white;
+}
+.blob-body {
+	max-width: 600px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 4.5rem 1.25rem;
+	color: white;
 }
 
 .btn {
-    background: #7a3cfc;
-    color: white;
-    border-radius: 10px;
-    font-weight: bold;
+	background: #7a3cfc;
+	color: white;
+	border-radius: 10px;
+	font-weight: bold;
 }
 .btn:hover {
-    color: white;
+	color: white;
 }
 label {
-    display: block;
-    font-weight: 500;
-    font-size: 14px;
-    margin-bottom: 0;
+	display: block;
+	font-weight: 500;
+	font-size: 14px;
+	margin-bottom: 0;
+	color: white;
 }
 table {
-    width: 100%;
+	width: 100%;
 }
 tr {
-    line-height: 32px;
+	line-height: 32px;
 }
 .mb-3 {
-    margin-bottom: 1.1rem !important;
+	margin-bottom: 1.1rem !important;
 }
 </style>
