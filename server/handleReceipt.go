@@ -1,6 +1,7 @@
 package server
 
 import (
+	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -41,29 +42,29 @@ func (s *Server) handleReceipt() http.HandlerFunc {
 		}
 
 		// send a webhook notification to mattermost
-		// go func() {
-		// 	endpointURI := os.Getenv("MATTERMOST_NOTIFICATION_URL")
-		// 	if endpointURI == "" {
-		// 		return
-		// 	}
+		go func() {
+			endpointURI := os.Getenv("MATTERMOST_NOTIFICATION_URL")
+			if endpointURI == "" {
+				return
+			}
 
-		// 	s.log("Sending mattermost notification")
-		// 	messageText := "Payment completed.\nCompany: %%COMPANY%%\nEmail: %%EMAIL%%\nInvoices: %%INVOICES%%\nTotal: $%%TOTAL%%"
-		// 	messageText = strings.ReplaceAll(messageText, "%%TOTAL%%", incomingData.Amount)
-		// 	messageText = strings.ReplaceAll(messageText, "%%COMPANY%%", incomingData.Company)
-		// 	messageText = strings.ReplaceAll(messageText, "%%EMAIL%%", incomingData.Email)
-		// 	invoices := []string{}
-		// 	for _, i := range incomingData.Invoices {
-		// 		invoices = append(invoices, i.Number)
-		// 	}
-		// 	messageText = strings.ReplaceAll(messageText, "%%INVOICES%%", strings.Join(invoices, ", "))
+			s.log("Sending mattermost notification")
+			messageText := "Payment completed.\nCompany: %%COMPANY%%\nEmail: %%EMAIL%%\nInvoices: %%INVOICES%%\nTotal: $%%TOTAL%%"
+			messageText = strings.ReplaceAll(messageText, "%%TOTAL%%", incomingData.Amount)
+			messageText = strings.ReplaceAll(messageText, "%%COMPANY%%", incomingData.Company)
+			messageText = strings.ReplaceAll(messageText, "%%EMAIL%%", incomingData.Email)
+			invoices := []string{}
+			for _, i := range incomingData.Invoices {
+				invoices = append(invoices, i.Number)
+			}
+			messageText = strings.ReplaceAll(messageText, "%%INVOICES%%", strings.Join(invoices, ", "))
 
-		// 	postBody := map[string]string{
-		// 		"text": messageText,
-		// 	}
-		// 	bodyJSON, _ := json.Marshal(postBody)
-		// 	http.Post(endpointURI, "application/json", bytes.NewBuffer(bodyJSON))
-		// }()
+			postBody := map[string]string{
+				"text": messageText,
+			}
+			bodyJSON, _ := json.Marshal(postBody)
+			http.Post(endpointURI, "application/json", bytes.NewBuffer(bodyJSON))
+		}()
 
 		// send an email reciept to the customer
 		go func() {
