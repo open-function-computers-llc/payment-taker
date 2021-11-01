@@ -1,12 +1,14 @@
 package server
 
 import (
-	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
+
+	"gopkg.in/gomail.v2"
 )
 
 func (s *Server) handleReceipt() http.HandlerFunc {
@@ -37,69 +39,69 @@ func (s *Server) handleReceipt() http.HandlerFunc {
 			s.handleError(w, "Invalid JSON: "+err.Error())
 			return
 		}
+
 		// send a webhook notification to mattermost
-		go func() {
-			endpointURI := os.Getenv("MATTERMOST_NOTIFICATION_URL")
-			if endpointURI == "" {
-				return
-			}
+		// go func() {
+		// 	endpointURI := os.Getenv("MATTERMOST_NOTIFICATION_URL")
+		// 	if endpointURI == "" {
+		// 		return
+		// 	}
 
-			s.log("Sending mattermost notification")
-			messageText := "Payment completed.\nCompany: %%COMPANY%%\nEmail: %%EMAIL%%\nInvoices: %%INVOICES%%\nTotal: $%%TOTAL%%"
-			messageText = strings.ReplaceAll(messageText, "%%TOTAL%%", incomingData.Amount)
-			messageText = strings.ReplaceAll(messageText, "%%COMPANY%%", incomingData.Company)
-			messageText = strings.ReplaceAll(messageText, "%%EMAIL%%", incomingData.Email)
-			invoices := []string{}
-			for _, i := range incomingData.Invoices {
-				invoices = append(invoices, i.Number)
-			}
-			messageText = strings.ReplaceAll(messageText, "%%INVOICES%%", strings.Join(invoices, ", "))
+		// 	s.log("Sending mattermost notification")
+		// 	messageText := "Payment completed.\nCompany: %%COMPANY%%\nEmail: %%EMAIL%%\nInvoices: %%INVOICES%%\nTotal: $%%TOTAL%%"
+		// 	messageText = strings.ReplaceAll(messageText, "%%TOTAL%%", incomingData.Amount)
+		// 	messageText = strings.ReplaceAll(messageText, "%%COMPANY%%", incomingData.Company)
+		// 	messageText = strings.ReplaceAll(messageText, "%%EMAIL%%", incomingData.Email)
+		// 	invoices := []string{}
+		// 	for _, i := range incomingData.Invoices {
+		// 		invoices = append(invoices, i.Number)
+		// 	}
+		// 	messageText = strings.ReplaceAll(messageText, "%%INVOICES%%", strings.Join(invoices, ", "))
 
-			postBody := map[string]string{
-				"text": messageText,
-			}
-			bodyJSON, _ := json.Marshal(postBody)
-			http.Post(endpointURI, "application/json", bytes.NewBuffer(bodyJSON))
-		}()
+		// 	postBody := map[string]string{
+		// 		"text": messageText,
+		// 	}
+		// 	bodyJSON, _ := json.Marshal(postBody)
+		// 	http.Post(endpointURI, "application/json", bytes.NewBuffer(bodyJSON))
+		// }()
 
 		// send an email reciept to the customer
 		go func() {
+			incomingData := incomingPayload{}
+			err = json.Unmarshal(body, &incomingData)
+			if err != nil {
+				s.handleError(w, "Invalid JSON: "+err.Error())
+				return
+			}
 			s.log("Sending customer email...")
-			return // remove this line to actually send the email notification
-			// m := gomail.NewMessage()
-			// m.SetHeader("From", os.Getenv("EMAIL_FROM"))
-			// m.SetHeader("To", os.Getenv("EMAIL_TO"))
-			// m.SetHeader("Subject", s.URL+" is back up")
-			// m.SetBody("text/html", "<h1>"+s.URL+" is back online!</h1><p>It was down for "+strconv.Itoa(secondsDown)+" seconds.</p>")
 
-			// 	port := os.Getenv("SMTP_PORT")
-			// 	portInt, _ := strconv.Atoi(port)
-			// 	d := gomail.NewDialer(os.Getenv("SMTP_HOST"),
-			// 		portInt,
-			// 		os.Getenv("SMTP_USER"),
-			// 		os.Getenv("SMTP_PASSWORD"))
-			// 	if err := d.DialAndSend(m); err != nil {
-			// 		s.Logger.Error(err)
-			// 	}
-			// }()
-			// go func() {
-			// 	s.log("Sending ofco email...")
-			// 	m := gomail.NewMessage()
-			// 	m.SetHeader("From", os.Getenv("EMAIL_FROM"))
-			// 	m.SetHeader("To", os.Getenv("EMAIL_TO"))
-			// 	m.SetHeader("Subject", s.URL+" is back up")
-			// 	m.SetBody("text/html", "<h1>"+s.URL+" is back online!</h1><p>It was down for "+strconv.Itoa(secondsDown)+" seconds.</p>")
+			messageText := "<h2>Thank you for your recent payment</h2>%%INVOICES%%<p>Total:" + incomingData.Amount + "</p></br><p>We appreciate you and your business!</p><img src='https://avatars.githubusercontent.com/u/48373648?s=200&amp;v=4'>"
 
-			// 	port := os.Getenv("SMTP_PORT")
-			// 	portInt, _ := strconv.Atoi(port)
-			// 	d := gomail.NewDialer(os.Getenv("SMTP_HOST"),
-			// 		portInt,
-			// 		os.Getenv("SMTP_USER"),
-			// 		os.Getenv("SMTP_PASSWORD"))
-			// 	if err := d.DialAndSend(m); err != nil {
-			// 		s.Logger.Error(err)
-			// 	}
-		}()
+			invoices := []string{}
+			for _, i := range incomingData.Invoices {
+				invoices = append(invoices, "<p>Invoice Number:" + i.Number + "</p>")
+			}
+			messageText = strings.ReplaceAll(messageText, "%%INVOICES%%", strings.Join(invoices, ""))
+			messageText = "<p>" + messageText + "</p>"
+
+			s.log(messageText)
+
+			//send email
+			m := gomail.NewMessage()
+			m.SetHeader("From", os.Getenv("EMAIL_FROM"))
+			m.SetHeader("To", incomingData.Email)
+			m.SetHeader("Subject", "OFCO Invoice Receipt")
+			m.SetBody("text/html", messageText)
+				port := os.Getenv("SMTP_PORT")
+				portInt, _ := strconv.Atoi(port)
+				d := gomail.NewDialer(os.Getenv("SMTP_HOST"),
+					portInt,
+					os.Getenv("SMTP_USER"),
+					os.Getenv("SMTP_PASSWORD"))
+				if err := d.DialAndSend(m); err != nil {
+					panic(err)
+				}
+			}()
 
 		w.Write([]byte("done!"))
 	}

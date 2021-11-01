@@ -18,6 +18,7 @@
             v-if="state === 'readyToPay'"
             v-bind:secret="this.client_secret"
             v-bind:company="this.company"
+            v-bind:email="this.email"
             v-bind:total="this.total"
             v-bind:fee="this.fee"
             v-bind:invoices="this.invoices"
@@ -45,6 +46,7 @@ export default {
             amount: 0,
             fee: 0,
             company: "",
+            email: "",
             invoices: [],
             client_scret: "",
         };
@@ -90,7 +92,6 @@ export default {
     background: #f9a673;
     height: 100vh;
 }
-
 .app-container {
     width: 100%;
     display: flex;
@@ -122,11 +123,9 @@ export default {
     margin: 0 auto;
     padding: 3rem 1.25rem;
 }
-
 #card-element {
     max-width: 420px;
 }
-
 .btn {
     background: #7a3cfc;
     color: white;

@@ -109,10 +109,9 @@ export default {
 			this.spinner = "true";
 			window.stripe
 				.confirmCardPayment(this.secret, {
-					email: this.email,
 					payment_method: {
 						card: this.card,
-					},
+					}
 				})
 				.then((result) => {
 					if (result.error) {
